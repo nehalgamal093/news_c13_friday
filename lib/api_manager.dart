@@ -4,8 +4,10 @@ import 'package:http/http.dart' as http;
 import 'package:news_c13_friday/constants.dart';
 import 'package:news_c13_friday/model/NewsResponse.dart';
 import 'package:news_c13_friday/model/sources_response.dart';
+import 'package:news_c13_friday/provider/search_news_provider.dart';
 
 class ApiManager {
+
   static Future<SourcesResponse> getSources(String categoryName) async {
     Uri url = Uri.https(Constant.BASE_URL, "/v2/top-headlines/sources",
         {"apiKey": Constant.API_KEY, "category": categoryName});
@@ -27,6 +29,18 @@ class ApiManager {
     var json = jsonDecode(response.body);
 
     NewsResponse newsResponse = NewsResponse.fromJson(json);
+    return newsResponse;
+  }
+
+  Future<NewsResponse> getSearchedNews(String searchedText) async {
+    Uri url = Uri.https(Constant.BASE_URL, "/v2/everything",
+        {"apiKey": Constant.API_KEY, "q": searchedText});
+
+    http.Response response = await http.get(url);
+
+    var json = jsonDecode(response.body);
+    NewsResponse newsResponse = NewsResponse.fromJson(json);
+
     return newsResponse;
   }
 }
