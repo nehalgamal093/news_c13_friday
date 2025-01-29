@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:news_c13_friday/home_screen.dart';
-import 'package:news_c13_friday/provider/search_news_provider.dart';
+import 'package:news_c13_friday/provider/news_searched_list_provider.dart';
 import 'package:news_c13_friday/search_screen/search_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(MultiProvider(
-
+  runApp(
+    MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_)=>SearchNewsProvider())
+        ChangeNotifierProvider(create: (_) => NewsSearchedListProvider())
       ],
-      child: const MyApp()));
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -22,10 +24,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: {
         HomeScreen.routeName: (context) => HomeScreen(),
-        SearchScreen.routName:(context)=>  SearchScreen()
+        SearchScreen.routName: (context) => const SearchScreen()
       },
       initialRoute: HomeScreen.routeName,
-
     );
   }
 }

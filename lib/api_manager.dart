@@ -1,10 +1,8 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:news_c13_friday/constants.dart';
 import 'package:news_c13_friday/model/NewsResponse.dart';
 import 'package:news_c13_friday/model/sources_response.dart';
-import 'package:news_c13_friday/provider/search_news_provider.dart';
 
 class ApiManager {
 
@@ -32,7 +30,8 @@ class ApiManager {
     return newsResponse;
   }
 
-  Future<NewsResponse> getSearchedNews(String searchedText) async {
+  Future <List<Articles>> getSearchedNews(String searchedText) async {
+    List<Articles> articles =[];
     Uri url = Uri.https(Constant.BASE_URL, "/v2/everything",
         {"apiKey": Constant.API_KEY, "q": searchedText});
 
@@ -40,7 +39,9 @@ class ApiManager {
 
     var json = jsonDecode(response.body);
     NewsResponse newsResponse = NewsResponse.fromJson(json);
-
-    return newsResponse;
+  if(newsResponse.status == 'ok'){
+    articles = newsResponse.articles!;
+  }
+    return articles;
   }
 }
